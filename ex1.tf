@@ -28,8 +28,8 @@ resource "aws_s3_bucket" "tf_bucket" {
 
 data "aws_vpc" "project-vpc2" {id ="vpc-0741cc79be2adf011"}
 
-# data "aws_subnet" "my_subnet" {id ="subnet-04f383a68762fc487"}
-# data "aws_subnet" "my_subnet2" {id ="subnet-059436c6453a77ceb"}
+data "aws_subnet" "my_subnet" {id ="subnet-04f383a68762fc487"}
+data "aws_subnet" "my_subnet2" {id ="subnet-059436c6453a77ceb"}
 
 resource "aws_security_group" "security_group_exercise" {
   name        = "security_group_exercise"
@@ -67,22 +67,22 @@ resource "aws_security_group" "security_group_exercise" {
 # }
 
 
-# resource "aws_instance" "prod_web" {
-#   count = 2
+resource "aws_instance" "instance_exercise" {
+  # count = 2
 
-#   ami           = "ami-0626e196bb518cfaa"
-#   instance_type = "t2.micro"
-#   subnet_id      = data.aws_subnet.my_subnet.id
+  ami           = "ami-0626e196bb518cfaa"
+  instance_type = "t2.micro"
+  subnet_id      = data.aws_subnet.my_subnet.id
 
-#   vpc_security_group_ids = [
-#     aws_security_group.my_security_group.id
-# ]
+  vpc_security_group_ids = [
+    aws_security_group.security_group_exercise.id
+]
 
-#   tags = {
-#     "Terraform" : "true"
-#     Name          = "terraform instance"
-#   }
-# }
+  tags = {
+    "Terraform" : "true"
+    Name          = "terraform instance exercise"
+  }
+}
 
 # resource "aws_eip_association" "prod_web" {
 #   instance_id   = aws_instance.prod_web.0.id
