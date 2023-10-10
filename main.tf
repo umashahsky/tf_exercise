@@ -39,9 +39,16 @@ resource "aws_iam_policy" "policy" {
   policy = data.aws_iam_policy_document.example.json
 }
 
+# resource "aws_iam_user_policy_attachment" "attachment" {
+#   user       = aws_iam_user.new_user.name
+#   policy_arn = [aws_iam_policy.policy.arn, "arn:aws:iam::aws:policy/IAMFullAccess", "arn:aws:iam::aws:policy/AmazonEC2FullAccess", "arn:aws:iam::aws:policy/AmazonECS_FullAccess", "arn:aws:iam::aws:policy/AmazonS3FullAccess", "arn:aws:iam::aws:policy/AmazonVPCFullAccess", "arn:aws:iam::aws:policy/PowerUserAccess"]
+# }
+
 resource "aws_iam_user_policy_attachment" "attachment" {
+  for_each = toset([aws_iam_policy.policy.arn, "arn:aws:iam::aws:policy/IAMFullAccess", "arn:aws:iam::aws:policy/AmazonEC2FullAccess", "arn:aws:iam::aws:policy/AmazonECS_FullAccess", "arn:aws:iam::aws:policy/AmazonS3FullAccess", "arn:aws:iam::aws:policy/AmazonVPCFullAccess", "arn:aws:iam::aws:policy/PowerUserAccess"])
+
   user       = aws_iam_user.new_user.name
-  policy_arn = [aws_iam_policy.policy.arn, "arn:aws:iam::aws:policy/IAMFullAccess"]
+  policy_arn = each.value
 }
 
 
