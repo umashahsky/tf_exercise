@@ -1,16 +1,16 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-provider "aws" {
-  region = var.region
+# provider "aws" {
+#   region = var.region
 
-  default_tags {
-    tags = {
-      Hashicorp-Learn = "aws-iam-policy"
-    }
-  }
+#   default_tags {
+#     tags = {
+#       Hashicorp-Learn = "aws-iam-policy"
+#     }
+#   }
 
-}
+# }
 
 resource "random_pet" "pet_name" {
   length    = 3

@@ -2,5 +2,5 @@
 # SPDX-License-Identifier: MPL-2.0
 
 variable "region" {
-  default = "us-east-2"
+  default = "eu-west-2"
 }
