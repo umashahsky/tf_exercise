@@ -16,12 +16,7 @@
 # variable "web_min_size" {
 # type=number
 # }
-
-provider "aws" {
-  profile = "default"
-  region  = "eu-west-2"
-  shared_credentials_file = "~/.aws/credentials"
-}                                                                                                                              
+                                                                                                                         
 
 
 
@@ -30,46 +25,41 @@ resource "aws_s3_bucket" "tf_bucket" {
   acl	   = "private"
 }
 
-# terraform {
-#   backend "s3" {
-#     bucket         = "prod_tf_course_2"
-#     key            = "terraform.tfstate"
-#     region         = "eu-west-1"  # Set your desired AWS region
-#   }
-# }
 
-# data "aws_vpc" "project-vpc2" {id ="vpc-0741cc79be2adf011"}
+data "aws_vpc" "project-vpc2" {id ="vpc-0741cc79be2adf011"}
+
 # data "aws_subnet" "my_subnet" {id ="subnet-04f383a68762fc487"}
 # data "aws_subnet" "my_subnet2" {id ="subnet-059436c6453a77ceb"}
 
-# resource "aws_security_group" "my_security_group" {
-#   name        = "my_security_group"
-#   vpc_id      = data.aws_vpc.project-vpc2.id
+resource "aws_security_group" "security_group_exercise" {
+  name        = "security_group_exercise"
+  description = "Allow standard http and https ports inbound and everything outbound"
+  vpc_id      = data.aws_vpc.project-vpc2.id
 
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = var.whitelist
-#   }
-#   ingress {
-#     from_port   = 443
-#     to_port     = 443
-#     protocol    = "tcp"
-#     cidr_blocks = var.whitelist
-#   }
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp" 
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" #allows all protocols
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-#   tags = {
-#     "Terraform" : "true"
-#   }
+  tags = {
+    "Terraform" : "true"
+  }
 
-# }
+}
 
 # module "web_app" {
 #   source = "./.modules/web_app/main.tf"
