@@ -41,7 +41,7 @@ resource "aws_iam_policy" "policy" {
 
 resource "aws_iam_user_policy_attachment" "attachment" {
   user       = aws_iam_user.new_user.name
-  policy_arn = aws_iam_policy.policy.arn
+  policy_arn = [aws_iam_policy.policy.arn, "arn:aws:iam::aws:policy/IAMFullAccess"]
 }
 
 
